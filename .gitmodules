@@ -31,3 +31,7 @@
 [submodule "videoduplicatefinder-git"]
 	path = videoduplicatefinder-git
 	url = ssh://aur@aur.archlinux.org/videoduplicatefinder-git.git
+[submodule "qtcreator-discord-rich-presence-plugin"]
+	path = qtcreator-discord-rich-presence-plugin
+	url = ssh://aur@aur.archlinux.org/qtcreator-discord-rich-presence-plugin.git
+	branch = master
