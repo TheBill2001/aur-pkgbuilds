@@ -1,0 +1,33 @@
+[submodule "hunspell-vi-git"]
+	path = hunspell-vi-git
+	url = ssh://aur@aur.archlinux.org/hunspell-vi-git.git
+[submodule "libreoffice-extension-vietnamese-spellchecker-git"]
+	path = libreoffice-extension-vietnamese-spellchecker-git
+	url = ssh://aur@aur.archlinux.org/libreoffice-extension-vietnamese-spellchecker-git.git
+[submodule "qtcreator-spellchecker-plugin-git"]
+	path = qtcreator-spellchecker-plugin-git
+	url = ssh://aur@aur.archlinux.org/qtcreator-spellchecker-plugin-git.git
+[submodule "qtcreator-spellchecker-plugin-bin"]
+	path = qtcreator-spellchecker-plugin-bin
+	url = ssh://aur@aur.archlinux.org/qtcreator-spellchecker-plugin-bin.git
+[submodule "qtcreator-spellchecker-plugin"]
+	path = qtcreator-spellchecker-plugin
+	url = ssh://aur@aur.archlinux.org/qtcreator-spellchecker-plugin.git
+[submodule "headsetkontrol"]
+	path = headsetkontrol
+	url = ssh://aur@aur.archlinux.org/headsetkontrol.git
+[submodule "koboldcpp"]
+	path = koboldcpp
+	url = ssh://aur@aur.archlinux.org/koboldcpp.git
+[submodule "koboldcpp-cuda"]
+	path = koboldcpp-cuda
+	url = ssh://aur@aur.archlinux.org/koboldcpp-cuda.git
+[submodule "koboldcpp-hipblas"]
+	path = koboldcpp-hipblas
+	url = ssh://aur@aur.archlinux.org/koboldcpp-hipblas.git
+[submodule "reflex-lexer"]
+	path = reflex-lexer
+	url = ssh://aur@aur.archlinux.org/reflex-lexer.git
+[submodule "videoduplicatefinder-git"]
+	path = videoduplicatefinder-git
+	url = ssh://aur@aur.archlinux.org/videoduplicatefinder-git.git
