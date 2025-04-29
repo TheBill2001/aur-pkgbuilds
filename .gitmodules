@@ -1,36 +1,55 @@
 [submodule "hunspell-vi-git"]
 	path = hunspell-vi-git
 	url = ssh://aur@aur.archlinux.org/hunspell-vi-git.git
+	branch = master
 [submodule "libreoffice-extension-vietnamese-spellchecker-git"]
 	path = libreoffice-extension-vietnamese-spellchecker-git
 	url = ssh://aur@aur.archlinux.org/libreoffice-extension-vietnamese-spellchecker-git.git
+	branch = master
 [submodule "qtcreator-spellchecker-plugin-git"]
 	path = qtcreator-spellchecker-plugin-git
 	url = ssh://aur@aur.archlinux.org/qtcreator-spellchecker-plugin-git.git
+	branch = master
 [submodule "qtcreator-spellchecker-plugin-bin"]
 	path = qtcreator-spellchecker-plugin-bin
 	url = ssh://aur@aur.archlinux.org/qtcreator-spellchecker-plugin-bin.git
+	branch = master
 [submodule "qtcreator-spellchecker-plugin"]
 	path = qtcreator-spellchecker-plugin
 	url = ssh://aur@aur.archlinux.org/qtcreator-spellchecker-plugin.git
+	branch = master
 [submodule "headsetkontrol"]
 	path = headsetkontrol
 	url = ssh://aur@aur.archlinux.org/headsetkontrol.git
+	branch = master
 [submodule "koboldcpp"]
 	path = koboldcpp
 	url = ssh://aur@aur.archlinux.org/koboldcpp.git
+	branch = master
+[submodule "koboldcpp-portable"]
+	path = koboldcpp-portable
+	url = ssh://aur@aur.archlinux.org/koboldcpp-portable.git
+	branch = master
 [submodule "koboldcpp-cuda"]
 	path = koboldcpp-cuda
 	url = ssh://aur@aur.archlinux.org/koboldcpp-cuda.git
+	branch = master
+[submodule "koboldcpp-cuda-portable"]
+	path = koboldcpp-cuda-portable
+	url = ssh://aur@aur.archlinux.org/koboldcpp-cuda-portable.git
+	branch = master
 [submodule "koboldcpp-hipblas"]
 	path = koboldcpp-hipblas
 	url = ssh://aur@aur.archlinux.org/koboldcpp-hipblas.git
+	branch = master
 [submodule "reflex-lexer"]
 	path = reflex-lexer
 	url = ssh://aur@aur.archlinux.org/reflex-lexer.git
+	branch = master
 [submodule "videoduplicatefinder-git"]
 	path = videoduplicatefinder-git
 	url = ssh://aur@aur.archlinux.org/videoduplicatefinder-git.git
+	branch = master
 [submodule "qtcreator-discord-rich-presence-plugin"]
 	path = qtcreator-discord-rich-presence-plugin
 	url = ssh://aur@aur.archlinux.org/qtcreator-discord-rich-presence-plugin.git
