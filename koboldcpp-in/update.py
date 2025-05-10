@@ -6,6 +6,7 @@ import hashlib
 import os
 import shutil
 import subprocess
+import argparse
 
 
 SCRIPT_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
@@ -49,12 +50,16 @@ def calculate_checksum(url: str, hash=hashlib.sha256()):
 
         return hash.hexdigest()
     except requests.exceptions.RequestException as e:
-        print(f"Request error: {e}")
+        sys.stderr.print(f"Request error: {e}")
         return None
 
 
-def update(pkginfo: PkgInfo):
+def update(args, pkginfo: PkgInfo):
     DEST_DIR = os.path.join(SCRIPT_DIR_PATH, "..", pkginfo.pkgname)
+
+    if not args.test and args.push_only:
+        subprocess.run(["git", "push", "-u", "origin", "master"], cwd=DEST_DIR)
+        return
 
     pkgbuild_content = ""
     with open(
@@ -78,7 +83,9 @@ def update(pkginfo: PkgInfo):
     if len(pkginfo.provides) > 0:
         pkgbuild_content = pkgbuild_content.replace(
             "@PKGPROVIDES@",
-            f"provides=(\n    {'\n    '.join([f'"{provide}"' for provide in pkginfo.provides])}\n)",
+            f"provides=(\n    {'\n    '.join([
+                f'"{provide}"' for provide in pkginfo.provides
+            ])}\n)",
         )
     else:
         pkgbuild_content = pkgbuild_content.replace(
@@ -89,7 +96,9 @@ def update(pkginfo: PkgInfo):
     if len(pkginfo.conflicts) > 0:
         pkgbuild_content = pkgbuild_content.replace(
             "@PKGCONFLICTS@",
-            f"conflicts=(\n    {'\n    '.join([f'"{conflict}"' for conflict in pkginfo.conflicts])}\n)",
+            f"conflicts=(\n    {'\n    '.join([
+                f'"{conflict}"' for conflict in pkginfo.conflicts
+            ])}\n)",
         )
     else:
         pkgbuild_content = pkgbuild_content.replace(
@@ -97,42 +106,109 @@ def update(pkginfo: PkgInfo):
             "\n",
         )
 
-    with open(os.path.join(DEST_DIR, "PKGBUILD"), "w") as f:
-        f.write(pkgbuild_content)
+    if args.print:
+        print(f"#### START {pkginfo.pkgname} ####")
+        print(pkgbuild_content)
+        print(f"#### END {pkginfo.pkgname} ####\n")
 
-    shutil.copyfile(
-        os.path.join(SCRIPT_DIR_PATH, "koboldcpp.png"),
-        os.path.join(DEST_DIR, "koboldcpp.png"),
-    )
-    shutil.copyfile(
-        os.path.join(SCRIPT_DIR_PATH, "koboldcpp.desktop"),
-        os.path.join(DEST_DIR, "koboldcpp.desktop"),
-    )
-    shutil.copyfile(
-        os.path.join(SCRIPT_DIR_PATH, ".gitignore"),
-        os.path.join(DEST_DIR, ".gitignore"),
-    )
+    if not args.test:
+        subprocess.run(["git", "pull"], cwd=DEST_DIR)
+        subprocess.run(["git", "checkout", "master"], cwd=DEST_DIR)
 
-    with open(os.path.join(DEST_DIR, ".SRCINFO"), "w") as f:
-        subprocess.run(["makepkg", "--printsrcinfo"], cwd=DEST_DIR, stdout=f)
+        with open(os.path.join(DEST_DIR, "PKGBUILD"), "w") as f:
+            f.write(pkgbuild_content)
 
-    subprocess.run(["git", "add", "."], cwd=DEST_DIR)
-    subprocess.run(["git", "commit", "-m", f"Bump v{pkginfo.pkgver}"], cwd=DEST_DIR)
-    subprocess.run(["git", "push", "-u", "origin", "master"], cwd=DEST_DIR)
+        shutil.copyfile(
+            os.path.join(SCRIPT_DIR_PATH, "koboldcpp.png"),
+            os.path.join(DEST_DIR, "koboldcpp.png"),
+        )
+        shutil.copyfile(
+            os.path.join(SCRIPT_DIR_PATH, "koboldcpp.desktop"),
+            os.path.join(DEST_DIR, "koboldcpp.desktop"),
+        )
+        shutil.copyfile(
+            os.path.join(SCRIPT_DIR_PATH, ".gitignore"),
+            os.path.join(DEST_DIR, ".gitignore"),
+        )
+
+        with open(os.path.join(DEST_DIR, ".SRCINFO"), "w") as f:
+            subprocess.run(["makepkg", "--printsrcinfo"],
+                           cwd=DEST_DIR, stdout=f)
+
+        if args.commit:
+            subprocess.run(["git", "add", "."], cwd=DEST_DIR)
+
+            if args.amend:
+                if args.no_edit:
+                    subprocess.run(["git", "commit", "--amend", "--no-edit"],
+                                   cwd=DEST_DIR)
+                elif args.message:
+                    command = ["git", "commit", "--amend"]
+                    for msg in args.message:
+                        command.append("-m")
+                        command.append(msg)
+
+                    subprocess.run(command, cwd=DEST_DIR)
+                else:
+                    subprocess.run(
+                        ["git", "commit", "--amend",
+                         "-m", f"Bump v{pkginfo.pkgver}"],
+                        cwd=DEST_DIR
+                    )
+            else:
+                if args.message:
+                    command = ["git", "commit"]
+                    for msg in args.message:
+                        command.append("-m")
+                        command.append(msg)
+                    subprocess.run(command, cwd=DEST_DIR)
+                else:
+                    subprocess.run(["git", "commit", "-m",
+                                    f"Bump v{pkginfo.pkgver}"], cwd=DEST_DIR)
+
+            if args.push:
+                subprocess.run(["git", "push", "-u", "origin", "master"],
+                               cwd=DEST_DIR)
 
 
 if __name__ == "__main__":
-    pkgver = sys.argv[1]
-    if not pkgver:
-        print("Version is not set")
-        exit(1)
+    parser = argparse.ArgumentParser(prog='KoboldCpp PKGBUILD generator')
+    parser.add_argument('version', type=str, nargs='?',
+                        help="KoboldCpp version")
+    parser.add_argument('-c', '--commit',
+                        action='store_true', help="Commit change")
+    parser.add_argument('-p', '--push',
+                        action='store_true', help="Push change")
+    parser.add_argument('--push-only',
+                        action='store_true', help="Push only")
+    parser.add_argument('-a', '--amend',
+                        action='store_true', help="Amend commit")
+    parser.add_argument('-n', '--no-edit',
+                        action='store_true', help="No edit amend commit")
+    parser.add_argument('-t', '--test',
+                        action='store_true', help="Test run")
+    parser.add_argument('--print',
+                        action='store_true', help="Print output")
+    parser.add_argument('-m', '--message',
+                        action='append', type=str,
+                        help="Append commit message(s)")
 
-    checksum = calculate_checksum(
-        f"https://github.com/LostRuins/koboldcpp/archive/refs/tags/v{pkgver}.tar.gz"
-    )
-    if not checksum:
-        print("Version not found")
-        exit(1)
+    args = parser.parse_args()
+
+    pkgver: str = args.version
+    checksum: str | None = None
+
+    if not args.test and not args.push_only:
+        if not pkgver:
+            sys.stderr.print("Missing version.")
+            exit(1)
+
+        checksum = calculate_checksum(
+            f"https://github.com/LostRuins/koboldcpp/archive/refs/tags/v{pkgver}.tar.gz"
+        )
+        if not checksum:
+            sys.stderr.print("Cannot create checksum.")
+            exit(1)
 
     pkgbuilds = [
         PkgInfo("koboldcpp", pkgver, checksum),
@@ -152,7 +228,7 @@ if __name__ == "__main__":
             checksum,
             "(with CUDA)",
             ["cuda"],
-            ["LLAMA_CUBLAS"],
+            ["LLAMA_CUBLAS", "LLAMA_ARCHES_CU12"],
             ["koboldcpp=$pkgver"],
             ["koboldcpp"],
         ),
@@ -162,10 +238,11 @@ if __name__ == "__main__":
             checksum,
             "(with CUDA, portable build for old CPUs)",
             ["cuda"],
-            ["LLAMA_CUBLAS", "LLAMA_PORTABLE", "LLAMA_NOAVX2"],
+            ["LLAMA_CUBLAS", "LLAMA_ARCHES_CU12",
+                "LLAMA_PORTABLE", "LLAMA_NOAVX2"],
             ["koboldcpp=$pkgver", "koboldcpp-cuda=$pkgver"],
             ["koboldcpp", "koboldcpp-cuda"],
         ),
     ]
     for pkgbuild in pkgbuilds:
-        update(pkgbuild)
+        update(args, pkgbuild)
