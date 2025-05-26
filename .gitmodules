@@ -54,3 +54,6 @@
 	path = qtcreator-discord-rich-presence-plugin
 	url = ssh://aur@aur.archlinux.org/qtcreator-discord-rich-presence-plugin.git
 	branch = master
+[submodule "headsetcontrol"]
+	path = headsetcontrol
+	url = ssh://aur@aur.archlinux.org/headsetcontrol.git
