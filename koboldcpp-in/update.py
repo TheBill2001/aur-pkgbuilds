@@ -198,7 +198,7 @@ if __name__ == "__main__":
     pkgver: str = args.version
     checksum: str | None = None
 
-    if not args.test and not args.push_only:
+    if not args.push_only:
         if not pkgver:
             sys.stderr.print("Missing version.")
             exit(1)
@@ -242,6 +242,26 @@ if __name__ == "__main__":
                 "LLAMA_PORTABLE", "LLAMA_NOAVX2"],
             ["koboldcpp=$pkgver", "koboldcpp-cuda=$pkgver"],
             ["koboldcpp", "koboldcpp-cuda"],
+        ),
+        PkgInfo(
+            "koboldcpp-hipblas",
+            pkgver,
+            checksum,
+            "(with HIPBLAS, for ROCM)",
+            ["hipblas"],
+            ["LLAMA_HIPBLAS"],
+            ["koboldcpp=$pkgver", "koboldcpp-rocm=$pkgver"],
+            ["koboldcpp"],
+        ),
+        PkgInfo(
+            "koboldcpp-hipblas-portable",
+            pkgver,
+            checksum,
+            "(with HIPBLAS, for ROCM, portable build for old CPUs)",
+            ["hipblas"],
+            ["LLAMA_HIPBLAS", "LLAMA_PORTABLE", "LLAMA_NOAVX2"],
+            ["koboldcpp=$pkgver", "koboldcpp-rocm=$pkgver"],
+            ["koboldcpp", "koboldcpp-rocm"],
         ),
     ]
     for pkgbuild in pkgbuilds:
