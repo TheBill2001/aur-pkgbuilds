@@ -57,3 +57,6 @@
 [submodule "koboldcpp-hipblas-portable"]
 	path = koboldcpp-hipblas-portable
 	url = ssh://aur@aur.archlinux.org/koboldcpp-hipblas-portable
+[submodule "obs-urlsource"]
+	path = obs-urlsource
+	url = ssh://aur@aur.archlinux.org/obs-urlsource.git
