@@ -60,3 +60,12 @@
 [submodule "obs-urlsource"]
 	path = obs-urlsource
 	url = ssh://aur@aur.archlinux.org/obs-urlsource.git
+[submodule "qtcreator-qodeassist-plugin-bin"]
+	path = qtcreator-qodeassist-plugin-bin
+	url = ssh://aur@aur.archlinux.org/qtcreator-qodeassist-plugin-bin.git
+[submodule "qtcreator-qodeassist-plugin-git"]
+	path = qtcreator-qodeassist-plugin-git
+	url = ssh://aur@aur.archlinux.org/qtcreator-qodeassist-plugin-git.git
+[submodule "qtcreator-qodeassist-plugin"]
+	path = qtcreator-qodeassist-plugin
+	url = ssh://aur@aur.archlinux.org/qtcreator-qodeassist-plugin.git
