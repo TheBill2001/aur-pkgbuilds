@@ -20,6 +20,7 @@ class PkgInfo:
         self,
         pkgname: str,
         pkgver: str,
+        pkgrel: str,
         pkgsum: str,
         extra_desc: str = "",
         extra_deps: list[str] = [],
@@ -29,6 +30,7 @@ class PkgInfo:
     ):
         self.pkgname = pkgname
         self.pkgver = pkgver
+        self.pkgrel = pkgrel
         if extra_desc:
             self.pkgdesc = PkgInfo.PKGDESC + " " + extra_desc
         else:
@@ -70,6 +72,7 @@ def update(args, pkginfo: PkgInfo):
 
     pkgbuild_content = pkgbuild_content.replace("@PKGNAME@", pkginfo.pkgname)
     pkgbuild_content = pkgbuild_content.replace("@PKGVER@", pkginfo.pkgver)
+    pkgbuild_content = pkgbuild_content.replace("@PKGREL@", pkginfo.pkgrel)
     pkgbuild_content = pkgbuild_content.replace("@PKGDESC@", pkginfo.pkgdesc)
     pkgbuild_content = pkgbuild_content.replace("@PKGSUM@", pkginfo.pkgsum)
     pkgbuild_content = pkgbuild_content.replace(
@@ -175,6 +178,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(prog='KoboldCpp PKGBUILD generator')
     parser.add_argument('version', type=str, nargs='?',
                         help="KoboldCpp version")
+    parser.add_argument('-r', '--release', type=int,
+                        default=1, help="Package release")
     parser.add_argument('-c', '--commit',
                         action='store_true', help="Commit change")
     parser.add_argument('-p', '--push',
@@ -196,6 +201,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     pkgver: str = args.version
+    pkgrel: str = f"{args.release}"
     checksum: str | None = None
 
     if not args.push_only:
@@ -211,10 +217,11 @@ if __name__ == "__main__":
             exit(1)
 
     pkgbuilds = [
-        PkgInfo("koboldcpp", pkgver, checksum),
+        PkgInfo("koboldcpp", pkgver, pkgrel, checksum),
         PkgInfo(
             "koboldcpp-portable",
             pkgver,
+            pkgrel,
             checksum,
             "(portable build for old CPUs)",
             [],
@@ -225,6 +232,7 @@ if __name__ == "__main__":
         PkgInfo(
             "koboldcpp-cuda",
             pkgver,
+            pkgrel,
             checksum,
             "(with CUDA)",
             ["cuda"],
@@ -235,6 +243,7 @@ if __name__ == "__main__":
         PkgInfo(
             "koboldcpp-cuda-portable",
             pkgver,
+            pkgrel,
             checksum,
             "(with CUDA, portable build for old CPUs)",
             ["cuda"],
@@ -246,6 +255,7 @@ if __name__ == "__main__":
         PkgInfo(
             "koboldcpp-hipblas",
             pkgver,
+            pkgrel,
             checksum,
             "(with HIPBLAS, for ROCM)",
             ["hipblas"],
@@ -256,6 +266,7 @@ if __name__ == "__main__":
         PkgInfo(
             "koboldcpp-hipblas-portable",
             pkgver,
+            pkgrel,
             checksum,
             "(with HIPBLAS, for ROCM, portable build for old CPUs)",
             ["hipblas"],
