@@ -69,3 +69,6 @@
 [submodule "qtcreator-qodeassist-plugin"]
 	path = qtcreator-qodeassist-plugin
 	url = ssh://aur@aur.archlinux.org/qtcreator-qodeassist-plugin.git
+[submodule "cuda-boost-bypass"]
+	path = cuda-boost-bypass
+	url = ssh://aur@aur.archlinux.org/cuda-boost-bypass.git
