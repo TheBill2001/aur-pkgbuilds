@@ -17,6 +17,7 @@ optdepends=(
     'python-psutil: increasing the process CPU priority'
     'zenity: native file picker dialogs'
     'yad: native file picker dialogs'
+    'python-jinja: jinja2 templates'
 )
 @PKGPROVIDES@
 @PKGCONFLICTS@
