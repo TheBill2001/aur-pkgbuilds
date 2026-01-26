@@ -72,3 +72,6 @@
 [submodule "cuda-boost-bypass"]
 	path = cuda-boost-bypass
 	url = ssh://aur@aur.archlinux.org/cuda-boost-bypass.git
+[submodule "headsetcontrol-git"]
+	path = headsetcontrol-git
+	url = ssh://aur@aur.archlinux.org/headsetcontrol-git.git
