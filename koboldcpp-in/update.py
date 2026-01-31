@@ -14,7 +14,7 @@ SCRIPT_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 
 class PkgInfo:
     PKGDESC = "An easy-to-use AI text-generation software for GGML and GGUF models"
-    PKGDEPS = ["python", "cblas", "clblast", "vulkan-icd-loader"]
+    PKGDEPS = ["python", "vulkan-icd-loader"]
 
     def __init__(
         self,
