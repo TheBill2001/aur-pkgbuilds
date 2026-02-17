@@ -75,3 +75,6 @@
 [submodule "headsetcontrol-git"]
 	path = headsetcontrol-git
 	url = ssh://aur@aur.archlinux.org/headsetcontrol-git.git
+[submodule "fish-tide"]
+	path = fish-tide
+	url = ssh://aur@aur.archlinux.org/fish-tide.git
