@@ -78,3 +78,9 @@
 [submodule "fish-tide"]
 	path = fish-tide
 	url = ssh://aur@aur.archlinux.org/fish-tide.git
+[submodule "amethyst-mod-manager"]
+	path = amethyst-mod-manager
+	url = ssh://aur@aur.archlinux.org/amethyst-mod-manager.git
+[submodule "python-libloot"]
+	path = python-libloot
+	url = ssh://aur@aur.archlinux.org/python-libloot.git
